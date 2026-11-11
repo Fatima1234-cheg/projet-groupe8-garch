@@ -8,16 +8,18 @@
 
 ---
 
-##  Équipe — Groupe 8
+## Équipe — Groupe 8
 
-- CHIGUER Touria
-- BOUZARMIN Siham
-- EL HOUMA Chayma
-- CHEGDANI Fatima
+| Membre | Rôle et responsabilités |
+|---|---|
+| **CHIGUER Touria** | Cheffe de projet — Analyse financière, fiche théorique, planification et documentation. |
+| **BOUZARMIN Siham** | Quant / Data — Recherche des données financières MASI/MADEX et préparation des données. |
+| **EL HOUMA Chayma** | Ingénieure IA / Testeuse — Étude des modèles LSTM, préparation des tests et validation. |
+| **CHEGDANI Fatima** | Développeuse Odoo / Infrastructure — GitHub, Docker, configuration Odoo et conception de la base de données. |
 
 ---
 
-##  Objectif du projet
+## Objectif du projet
 
 L'objectif est de **prévoir la volatilité de l'indice MASI/MADEX** de la Bourse de Casablanca à l'aide d'un modèle **GARCH(1,1)**.
 
@@ -27,7 +29,7 @@ Une comparaison avec un modèle **LSTM** permettra également d'étudier la réa
 
 ---
 
-##  Approche
+## Approche
 
 Le projet est organisé autour de cinq axes :
 
@@ -39,7 +41,7 @@ Le projet est organisé autour de cinq axes :
 
 ---
 
-##  Technologies
+## Technologies
 
 - **Python**
 - **Pandas / NumPy**
@@ -55,7 +57,7 @@ Le projet est organisé autour de cinq axes :
 
 ---
 
-##  Structure du projet
+## Structure du projet
 
 ```text
 projet-groupe8/
@@ -71,7 +73,7 @@ projet-groupe8/
 
 ---
 
-##  Résultats attendus
+## Résultats attendus
 
 Le projet doit permettre de :
 
@@ -83,27 +85,45 @@ Le projet doit permettre de :
 
 ---
 
-## Avancement
+## Avancement du projet
 
-- [x] Création du dépôt GitHub
-- [ ] Préparation des données
-- [ ] Modèle GARCH
-- [ ] Intégration Odoo
-- [ ] Modèle LSTM
-- [ ] Comparaison GARCH / LSTM
-- [ ] Tests et validation
-- [ ] Rapport final
-- [ ] Soutenance
+### Phase 1 — S1 : Cadrage et préparation
+
+- [x] Création du dépôt GitHub et structure des dossiers.
+- [x] Installation et configuration de Docker.
+- [x] Lancement d'Odoo 17 et PostgreSQL.
+- [x] Création de la base de données `projet_masi`.
+- [x] Intégration du socle TP0.
+- [x] Conception du schéma de la base de données.
+- [x] Rédaction de la fiche de lecture (Phase 0).
+- [x] Élaboration du diagramme de Gantt prévisionnel.
+- [x] Mise à jour du README.
+- [x] Identification et documentation de la source des données MASI.
+- [x] Étude préliminaire des modèles GARCH et LSTM.
+- [x] Préparation de la stratégie de tests avec Pytest.
+
+### Phase 2 — S2 à S7 : Développement et réalisation
+
+- [ ] Collecte et préparation des données financières.
+- [ ] Implémentation et estimation du modèle GARCH.
+- [ ] Développement du modèle LSTM.
+- [ ] Création et développement du module Odoo.
+- [ ] Intégration des modèles Python dans Odoo.
+- [ ] Comparaison GARCH / LSTM.
+- [ ] Tests et validation des résultats.
+- [ ] Finalisation du rapport.
+- [ ] Préparation de la soutenance.
 
 ---
 
-## 📄 Documentation
+## Documentation
 
 Les documents du projet sont disponibles dans le dossier `docs/`.
 
 ```text
 docs/
 ├── fiche_lecture.pdf
+├── schema_bdd.png
 ├── gantt_previsionnel.png
 ├── gantt_realise.png
 └── rapport.pdf
@@ -111,7 +131,7 @@ docs/
 
 ---
 
-## 📌 Contexte
+## Contexte
 
 Projet réalisé dans le cadre du module **Finance des Marchés et ERP** — ENSA Safi, année universitaire **2026–2027**.
 
