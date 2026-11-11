@@ -1,0 +1,143 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1.7cm,top=2cm,bottom=1.8cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs,tabularx,array}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{lmodern}
+
+\definecolor{main}{HTML}{1F3A5F}
+\definecolor{soft}{HTML}{EAF0F7}
+
+\setlist{itemsep=1pt,topsep=2pt,parsep=0pt,leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\renewcommand{\arraystretch}{1.25}
+
+\titleformat{\section}{\large\bfseries\color{main}}{\thesection}{0.6em}{}[\vspace{-6pt}\color{main}\rule{\linewidth}{0.6pt}]
+\titlespacing*{\section}{0pt}{9pt}{4pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Projets Intégrateurs -- Finance des Marchés et ERP}
+\rhead{\small Groupe 8 -- Fiche de lecture}
+\cfoot{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{formule}[1][]{colback=soft,colframe=main!60,boxrule=0.5pt,
+  arc=2pt,left=4pt,right=4pt,top=1pt,bottom=1pt,#1}
+
+\begin{document}
+
+% ---------- Titre ----------
+\begin{tcolorbox}[colback=main,colframe=main,coltext=white,arc=3pt,halign=center]
+{\Large\bfseries Fiche de lecture (Phase 0)}\\[2pt]
+{\large Projet 8 -- Prévision de la volatilité du MASI/MADEX (GARCH)}
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l X@{}}
+\toprule
+Groupe & Groupe 8 : Touria, Siham, Chayma, Fatima \\
+Référence & Polycopié, Chapitre 4 -- Modèles de type GARCH \\
+Mots-clés & GARCH(1,1), clustering de volatilité, MASI, MADEX, \texttt{arch}, LSTM, jauge \\
+\bottomrule
+\end{tabularx}
+
+% ---------- 1 ----------
+\section{Formules clés du polycopié}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries\raggedright}p{3.3cm} X@{}}
+Rendement &
+\begin{formule}\vspace{-4pt}
+\[ r_t=\ln\!\Big(\tfrac{S_t}{S_{t-1}}\Big)=\mu+\varepsilon_t,\quad \varepsilon_t=\sigma_t z_t,\quad z_t\sim\text{i.i.d.}(0,1) \]
+\vspace{-12pt}\end{formule}\\
+GARCH(1,1) &
+\begin{formule}\vspace{-4pt}
+\[ \sigma_t^2=\omega+\alpha\,\varepsilon_{t-1}^2+\beta\,\sigma_{t-1}^2,\quad \omega>0,\ \alpha,\beta\ge0 \]
+\vspace{-12pt}\end{formule}\\
+Stationnarité, variance de long terme &
+\begin{formule}\vspace{-4pt}
+\[ \alpha+\beta<1,\qquad V_L=\frac{\omega}{1-\alpha-\beta} \]
+\vspace{-12pt}\end{formule}\\
+Prévision à $h$ jours &
+\begin{formule}\vspace{-4pt}
+\[ \mathbb{E}[\sigma_{t+h}^2]=V_L+(\alpha+\beta)^{h-1}\big(\sigma_{t+1}^2-V_L\big) \]
+\vspace{-12pt}\end{formule}\\
+Volatilité cumulée, annualisation &
+\begin{formule}\vspace{-4pt}
+\[ \sigma(h)=\sqrt{\textstyle\sum_{k=1}^{h}\mathbb{E}[\sigma_{t+k}^2]},\qquad \sigma_{ann}=\sigma_{jour}\sqrt{252} \]
+\vspace{-12pt}\end{formule}\\
+\end{tabularx}
+
+\medskip
+\textbf{En nos mots.}
+\begin{itemize}
+  \item \textbf{Clustering} : de fortes variations sont suivies de fortes variations.
+  \item $\boldsymbol{\alpha}$ : réactivité aux chocs récents.
+  \item $\boldsymbol{\alpha+\beta}$ (persistance) : durée des chocs ; proche de 1, un choc se dissipe lentement.
+  \item Les prévisions reviennent progressivement vers la variance de long terme $V_L$.
+\end{itemize}
+
+% ---------- 2 ----------
+\section{Hypothèses de marché et de modèle}
+\begin{itemize}
+  \item Moyenne des rendements quasi constante ; variance conditionnelle dépendant du passé.
+  \item Innovations Student-t (queues épaisses, plus réaliste pour le MASI).
+  \item Processus stationnaire ($\alpha+\beta<1$), paramètres constants sur la fenêtre d'estimation.
+  \item Volatilité réalisée non observable : proxy $r_t^2$ ou volatilité glissante sur 5 jours.
+\end{itemize}
+
+% ---------- 3 ----------
+\section{Lien avec le TP 0 (module \texttt{cours\_derives})}
+Le TP 0 calcule une volatilité historique constante, $\sigma_{ann}=\text{écart-type}(r)\sqrt{252}$
+(section 6). Le GARCH la généralise en volatilité conditionnelle. Nous \textbf{étendons} le module existant :
+
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.2cm} X@{}}
+\toprule
+\textbf{Élément à ajouter} & \textbf{Contenu / réutilisation du TP 0} \\
+\midrule
+Modèle \texttt{cours.masi\_vol} & indice, date, fenêtre, omega, alpha, beta, persistance, vol\_1j, vol\_5j, vol\_10j, vol\_annualisee, regime \\
+Champs calculés stockés & \texttt{compute}, \texttt{store=True}, \texttt{@api.depends} (comme \texttt{F0} de \texttt{cours.forward}) \\
+Contraintes & \texttt{@api.constrains} : $\alpha+\beta<1$, $\omega>0$, $\alpha,\beta\ge0$ (comme $\rho$ dans \texttt{cours.portfolio}) \\
+Bouton d'action & \texttt{action\_recuperer\_donnees()} : téléchargement + estimation ; résultats stockés, non ré-estimés à chaque ouverture \\
+Vues & formulaire, liste, graphique (vol conditionnelle + prévision 10 j), jauge faible/modérée/élevée (percentiles) \\
+Modèle fils (option) & \texttt{cours.masi\_vol.prevision} (One2many : horizon, variance, volatilité) \\
+Extension \texttt{cours.option} & \texttt{\_inherit} : vol GARCH comme $\sigma$ de pricing (optionnel) \\
+Tests et Docker & \texttt{TransactionCase} ; Dockerfile avec \texttt{arch}, \texttt{yfinance}, \texttt{scikit-learn}, \texttt{tensorflow}/\texttt{torch} \\
+\bottomrule
+\end{tabularx}
+
+% ---------- 4 ----------
+\section{Algorithme en Python}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}c >{\bfseries\raggedright}p{2.6cm} X@{}}
+\toprule
+\# & Étape & Détail \\
+\midrule
+1 & Données & MASI/MADEX via yfinance (symbole à vérifier) ou CSV de la Bourse de Casablanca ; source documentée \\
+2 & Nettoyage & jours fériés, valeurs manquantes ; \texttt{r = 100*np.log(px/px.shift(1)).dropna()} \\
+3 & Effet ARCH & autocorrélation de $r^2$, test d'Engle ; découpage chronologique train/test \\
+4 & Estimation & \texttt{arch\_model(r, vol='GARCH', p=1, q=1, dist='t').fit(disp='off')} \\
+5 & Diagnostics & $\alpha+\beta<1$ ; interpréter $\omega,\alpha,\beta,V_L$ ; QQ-plot, Ljung-Box \\
+6 & Prévision & \texttt{forecast(horizon=10).variance} ; vol 1 j $=\sqrt{v_1}$, 5 et 10 j $=\sqrt{\sum v_k}$, annualisée $=\sqrt{252\,v_1}$ \\
+7 & Bonus & GJR-GARCH / EGARCH (effet de levier) \\
+8 & IA : LSTM & fenêtres 20--30 j, normalisation apprise sur le train ; comparaison à GARCH (RMSE, MAE, QLIKE) ; réactivité autour des chocs $|r_t|>2$ écarts-types (ex. mars 2020) ; modèle sauvegardé, appelé depuis Odoo \\
+\bottomrule
+\end{tabularx}
+
+% ---------- 5 ----------
+\section{Erreurs à éviter}
+\begin{itemize}
+  \item Rendements en unités mal échelonnées (utiliser des \%).
+  \item Oublier la conversion en volatilité annualisée ($\times\sqrt{252}$).
+  \item Comparer la prévision à des rendements bruts au lieu d'un proxy lissé.
+  \item Mélanger train et test pour le LSTM ; conclure sur un seul choc.
+\end{itemize}
+
+\end{document}
