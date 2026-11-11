@@ -98,9 +98,7 @@ Le projet doit permettre de :
 - [x] Rédaction de la fiche de lecture (Phase 0).
 - [x] Élaboration du diagramme de Gantt prévisionnel.
 - [x] Mise à jour du README.
-- [x] Identification et documentation de la source des données MASI.
-- [x] Étude préliminaire des modèles GARCH et LSTM.
-- [x] Préparation de la stratégie de tests avec Pytest.
+- [x] Téléchargement de la source des données MASI.
 
 ### Phase 2 — S2 à S7 : Développement et réalisation
 
@@ -124,7 +122,8 @@ Les documents du projet sont disponibles dans le dossier `docs/`.
 docs/
 ├── fiche_lecture.pdf
 ├── schema_bdd.png
-├── gantt_previsionnel.png
+├── gantt_previsionnel.jpeg
+├── source_MASI.csv
 ├── gantt_realise.png
 └── rapport.pdf
 ```
