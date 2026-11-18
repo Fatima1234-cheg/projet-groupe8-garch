@@ -1,11 +1,8 @@
+arch
 pandas
 numpy
-arch
 scipy
 statsmodels
 matplotlib
-seaborn
-scikit-learn
-tensorflow
 pytest
 jupyter
