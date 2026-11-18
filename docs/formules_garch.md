@@ -20,3 +20,16 @@ $$\sigma_t^2 = \omega + \alpha\,\varepsilon_{t-1}^2 + \beta\,\sigma_{t-1}^2$$
 
 Le clustering de volatilite se traduit par une autocorrelation de $r_t^2$ ;
 il est teste par le test d'Engle (ARCH-LM).
+
+## 3. Stationnarite
+
+$$\alpha + \beta < 1$$
+
+La quantite $\alpha+\beta$ mesure la persistance : proche de 1, les chocs
+de volatilite se dissipent lentement.
+
+## 4. Variance de long terme
+
+$$V_L = \frac{\omega}{1-\alpha-\beta}$$
+
+Niveau vers lequel la variance conditionnelle revient a long terme.
