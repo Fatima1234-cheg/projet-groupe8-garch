@@ -1,3 +1,13 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   web:
     build: .
     depends_on:
@@ -10,3 +20,6 @@
       - PASSWORD=odoo
     volumes:
       - ./odoo_addons:/mnt/extra-addons
+
+volumes:
+  pgdata:
