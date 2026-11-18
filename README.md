@@ -62,16 +62,40 @@ Le projet est organisé autour de cinq axes :
 ```text
 projet-groupe8/
 ├── README.md
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── pytest.ini
 ├── docs/
+├── data/
+│   ├── raw/
+│   └── processed/
 ├── notebooks/
 ├── src/
 ├── tests/
-├── odoo_addons/
-├── docker-compose.yml
-└── requirements.txt
+├── figures/
+└── odoo_addons/cours_derives/
 ```
 
 ---
+## Données
+
+Fichier : `data/raw/masi_historique.csv` (source : Investing.com).
+
+## Lancement
+
+```bash
+docker compose up -d
+```
+
+puis http://localhost:8069
+
+## Tests
+
+```bash
+pip install -r requirements.txt
+pytest -v
+```
 
 ## Résultats attendus
 
@@ -102,8 +126,8 @@ Le projet doit permettre de :
 
 ### Phase 2 — S2 à S7 : Développement et réalisation
 
-- [ ] Collecte et préparation des données financières.
-- [ ] Implémentation et estimation du modèle GARCH.
+- [x] Collecte et préparation des données financières.
+- [x] Implémentation et estimation du modèle GARCH.
 - [ ] Développement du modèle LSTM.
 - [ ] Création et développement du module Odoo.
 - [ ] Intégration des modèles Python dans Odoo.
