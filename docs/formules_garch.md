@@ -33,3 +33,19 @@ de volatilite se dissipent lentement.
 $$V_L = \frac{\omega}{1-\alpha-\beta}$$
 
 Niveau vers lequel la variance conditionnelle revient a long terme.
+
+## 5. Prevision a h jours
+
+$$E[\sigma_{t+h}^2] = V_L + (\alpha+\beta)^{h-1}\left(\sigma_{t+1}^2 - V_L\right)$$
+
+## 6. Volatilite cumulee sur h jours
+
+$$\sigma(h) = \sqrt{\sum_{k=1}^{h} E[\sigma_{t+k}^2]}$$
+
+Utilisee pour les horizons 1, 5 et 10 jours.
+
+## 7. Annualisation
+
+$$\sigma_{ann} = \sigma_{jour} \times \sqrt{252}$$
+
+(252 jours de bourse par an).
