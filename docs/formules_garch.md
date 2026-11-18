@@ -49,3 +49,25 @@ Utilisee pour les horizons 1, 5 et 10 jours.
 $$\sigma_{ann} = \sigma_{jour} \times \sqrt{252}$$
 
 (252 jours de bourse par an).
+
+## 8. Estimation par maximum de vraisemblance
+
+Les parametres $\theta = (\mu,\omega,\alpha,\beta)$ maximisent la log-vraisemblance.
+
+Innovations Normales :
+
+$$\ell(\theta) = -\frac{1}{2}\sum_{t=1}^{T}\left[\ln(2\pi) + \ln\sigma_t^2 + \frac{\varepsilon_t^2}{\sigma_t^2}\right]$$
+
+Innovations Student-t ($\nu > 2$ degres de liberte) :
+
+$$\ell(\theta,\nu) = \sum_{t=1}^{T}\Big[\ln\Gamma\!\left(\tfrac{\nu+1}{2}\right) - \ln\Gamma\!\left(\tfrac{\nu}{2}\right) - \tfrac{1}{2}\ln\big(\pi(\nu-2)\big) - \tfrac{1}{2}\ln\sigma_t^2 - \tfrac{\nu+1}{2}\ln\!\left(1+\frac{\varepsilon_t^2}{(\nu-2)\sigma_t^2}\right)\Big]$$
+
+La loi de Student est preferee si les rendements ont des queues epaisses
+(kurtosis eleve, rejet de Jarque-Bera).
+
+## 9. Hypotheses
+
+- Moyenne quasi constante, variance conditionnelle dependant du passe.
+- Processus stationnaire, parametres constants sur la fenetre d'estimation.
+- La volatilite realisee n'etant pas observable, on utilise le proxy $r_t^2$
+  (ou la volatilite glissante sur 5 jours).
