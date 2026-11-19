@@ -1,4 +1,4 @@
 FROM odoo:17.0
 USER root
-RUN pip3 install --no-cache-dir --break-system-packages arch pandas numpy scipy statsmodels matplotlib
+RUN pip3 install --no-cache-dir arch pandas numpy scipy statsmodels matplotlib
 USER odoo
